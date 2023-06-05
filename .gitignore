@@ -1,3 +1,5 @@
 .idea/
 .pytest_cache/
 tests/.pytest_cache
+data_for_tests.py
+tests/test_applicant/allure_results/
