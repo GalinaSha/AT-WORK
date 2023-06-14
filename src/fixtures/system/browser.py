@@ -2,6 +2,7 @@ import logging
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 
 @pytest.fixture(scope='class')
 def selenium(pytestconfig):
@@ -16,7 +17,7 @@ def selenium(pytestconfig):
     #  options.page_load_strategy = 'eager'
 
     # Заменяем создание удаленного веб-драйвера на создание локального драйвера Chrome
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
     driver.maximize_window()
     driver.implicitly_wait(15)  # добавить неявное ожидание в 15 секунд
 

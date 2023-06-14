@@ -1,4 +1,5 @@
 import allure
+from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -42,7 +43,7 @@ class ResumeCreatePageLocators:
     WORK_PERIOD_CHECKBOX = (By.CLASS_NAME, "popup-experience__item-switch")
     RESPONSIBILITIES_INPUT = (By.CLASS_NAME, "popup-experience__textarea--type--responsibilities")
     ACHIEVEMENTS_INPUT = (By.CLASS_NAME, "popup-experience__textarea--type--achievements")
-    REASONS_FOR_LEAVING_INPUT = (By.CLASS_NAME, "popup-experience__textarea--type--reasons textarea-last")
+    REASONS_FOR_LEAVING_INPUT = (By.CLASS_NAME, "popup-experience__textarea--type--reasons")
     SAVE_EXPERIENCE_BUTTON = (By.CLASS_NAME, "popup-rigth__btn-experience-action")
     NEXT_BUTTON_4 = (By.CLASS_NAME, "steps__btn--type--next-step4")
 
@@ -53,12 +54,35 @@ class ResumeCreatePageLocators:
     YEAR_END_INPUT = (By.CLASS_NAME, "popup-education__input--type--year")
     SAVE_EDUCATION_BUTTON = (By.CLASS_NAME, "popup-rigth__btn-action--type--popup-education")
 
-    ADD_ADDITIONAL_EDUCATION_BUTTON = (By.CLASS_NAME, "step-action-btn--basic-education")
+    ADD_ADDITIONAL_EDUCATION_BUTTON = (By.CLASS_NAME, "step-action-btn--additional-education")
     NAME_INSTITUTE_ADDITIONAL_INPUT = (By.CLASS_NAME, "additional-education__input--type--name-institution")
     NAME_HOST_ORGANIZATION_INPUT = (By.CLASS_NAME, "additional-education__input--type--organization")
     SPECIALISATION_ADDITIONAL_INPUT = (By.CLASS_NAME, "additional-education__input--type--specialization")
-    YEAR_END_ADDITIONAL_INPUT = (By.CLASS_NAME, "additional-education__input additional-education__input--type--year")
-    SAVE_ADDITIONAL_BUTTON = (By.CLASS_NAME, " popup-rigth__btn-action--type--additional-education")
+    YEAR_END_ADDITIONAL_INPUT = (By.CLASS_NAME, "additional-education__input--type--year")
+    SAVE_ADDITIONAL_BUTTON = (By.CLASS_NAME, "popup-rigth__btn-action--type--additional-education")
+
+    ADD_LANGUAGE_BUTTON = (By.CLASS_NAME, "step-action-btn--type--language")
+    LANGUAGE_INPUT = (By.CLASS_NAME, "language__input")
+    LANGUAGE_ITEM_ENGLISH = (By.CSS_SELECTOR, "[data-id='17566']")
+    LANGUAGE_LEVEL_INPUT = (By.CLASS_NAME, "language__select-input")
+    LANGUAGE_LEVEL_ITEM_C1 = (By.CSS_SELECTOR, "[data-id='c1']")
+
+    KEY_SKILLS_INPUT = (By.CLASS_NAME, "skills__input")
+    DRIVER_LICENSE_CATEGORY = (By.CSS_SELECTOR, "[data-id='100']")
+    HAVE_A_CAR_CHECKBOX = (By.CLASS_NAME, "driver-license__item-switch")
+    NEXT_BUTTON_5 = (By.CLASS_NAME, "steps__btn--type--next-step5")
+
+    ABOUT_ME_INPUT = (By.CLASS_NAME, "step-textarea--type--about")
+    NEXT_BUTTON_6 = (By.CLASS_NAME, "steps__btn--type--next-step6")
+
+    PORTFOLIO_CARD = (By.CLASS_NAME, "portfolio-card")
+    NEXT_BUTTON_7 = (By.CLASS_NAME, "steps__btn--type--next-step7")
+
+    VIDEO_RESUME_INPUT = (By.CLASS_NAME, "form__dropzone dropzone")
+    NEXT_BUTTON_8 = (By.CLASS_NAME, "steps__btn--type--next-step8")
+
+    AGREEMENT_CHECKBOX = (By.CLASS_NAME, "checkbox-agreement__custom-checkbox")
+    PUBLICATION_FREE_BUTTON = (By.CLASS_NAME, "publication__btn--type--free")
 
 
 
@@ -156,13 +180,19 @@ def add_experience(selenium):
             selenium.find_element(*ResumeCreatePageLocators.WORK_PERIOD_YEAR_START_INPUT).send_keys("2020")
         with allure.step('Нажатие на чекбокс "По настоящее время"'):
             selenium.find_element(*ResumeCreatePageLocators.WORK_PERIOD_CHECKBOX).click()
+    with allure.step('Ввод в поле "Обязанности"'):
+        selenium.find_element(*ResumeCreatePageLocators.RESPONSIBILITIES_INPUT).send_keys(ResumeData.responsibilities)
+    with allure.step('Ввод в поле "Достижения"'):
+        selenium.find_element(*ResumeCreatePageLocators.ACHIEVEMENTS_INPUT).send_keys(ResumeData.achievements)
+    with allure.step('Ввод в поле "Достижения"'):
+        selenium.find_element(*ResumeCreatePageLocators.REASONS_FOR_LEAVING_INPUT).send_keys(ResumeData.reasons_for_leaving)
     with allure.step('Нажатие на кнопку "Сохранить"'):
         selenium.find_element(*ResumeCreatePageLocators.SAVE_EXPERIENCE_BUTTON).click()
 
 
 def add_basic_education(selenium):
     with allure.step('Нажатие на кнопку "Добавить"'):
-        selenium.find_element(*ResumeCreatePageLocators.ADD_EXPERIENCE_BUTTON).click()
+        selenium.find_element(*ResumeCreatePageLocators.ADD_BASIC_EDUCATION_BUTTON).click()
     with allure.step('Ввод в поле "Название учебного заведения"'):
         selenium.find_element(*ResumeCreatePageLocators.NAME_INSTITUTE_INPUT).send_keys(ResumeData.institute_name)
     with allure.step('Ввод в поле "Специализация"'):
@@ -177,7 +207,7 @@ def add_basic_education(selenium):
 
 def add_additional_education(selenium):
     with allure.step('Нажатие на кнопку "Добавить"'):
-        selenium.find_element(*ResumeCreatePageLocators.ADD_EXPERIENCE_BUTTON).click()
+        selenium.find_element(*ResumeCreatePageLocators.ADD_ADDITIONAL_EDUCATION_BUTTON).click()
     with allure.step('Ввод в поле "Учебное заведение"'):
         selenium.find_element(*ResumeCreatePageLocators.NAME_INSTITUTE_ADDITIONAL_INPUT).send_keys(ResumeData.institute_name)
     with allure.step('Ввод в поле "Проводившая организация"'):
@@ -188,3 +218,50 @@ def add_additional_education(selenium):
         selenium.find_element(*ResumeCreatePageLocators.YEAR_END_ADDITIONAL_INPUT).send_keys("2018")
     with allure.step('Нажатие на кнопку "Сохранить"'):
         selenium.find_element(*ResumeCreatePageLocators.SAVE_ADDITIONAL_BUTTON).click()
+
+
+def add_language(selenium):
+    with allure.step('Нажатие на кнопку "Добавить"'):
+        selenium.find_element(*ResumeCreatePageLocators.ADD_LANGUAGE_BUTTON).click()
+    with allure.step('Ввод в поле "Название языка"'):
+        selenium.find_element(*ResumeCreatePageLocators.LANGUAGE_INPUT).send_keys("английский")
+    with allure.step('Выбор языка из выпадающего списка'):
+        selenium.find_element(*ResumeCreatePageLocators.LANGUAGE_ITEM_ENGLISH).click()
+    with allure.step('Выбор уровня владения языком'):
+        selenium.find_element(*ResumeCreatePageLocators.LANGUAGE_LEVEL_INPUT).click()
+        selenium.find_element(*ResumeCreatePageLocators.LANGUAGE_LEVEL_ITEM_C1).click()
+
+
+def add_key_skills(selenium):
+    with allure.step('Ввод в поле "Ключеввые навыки"'):
+        selenium.find_element(*ResumeCreatePageLocators.KEY_SKILLS_INPUT).send_keys("Postman" + Keys.ENTER)
+
+
+def driver_license_category_change(selenium):
+    with allure.step('Нажатие на категорию прав'):
+        selenium.find_element(*ResumeCreatePageLocators.DRIVER_LICENSE_CATEGORY).click()
+
+
+def have_a_car_change(selenium):
+    with allure.step('Нажатие на чекбокс "Есть свой автомобиль"'):
+        selenium.find_element(*ResumeCreatePageLocators.HAVE_A_CAR_CHECKBOX).click()
+
+
+def about_me(selenium):
+    with allure.step('Ввод в поле "О себе"'):
+        selenium.find_element(*ResumeCreatePageLocators.ABOUT_ME_INPUT).send_keys(ResumeData.text_about_me_full)
+
+
+def add_portfolio(selenium):
+    with allure.step('Нажатие на карточку портфолио'):
+        selenium.find_element(*ResumeCreatePageLocators.PORTFOLIO_CARD).click()
+
+
+def add_video_resume(selenium):
+    with allure.step('Добавление видеорезюме'):
+        selenium.find_element(*ResumeCreatePageLocators.VIDEO_RESUME_INPUT).send_keys(ResumeData.video)
+
+
+def click_agreement_checkbox(selenium):
+    with allure.step('Нажатие на чекбокс согласия с правилами размещения резюме'):
+        selenium.find_element(*ResumeCreatePageLocators.AGREEMENT_CHECKBOX).click()
