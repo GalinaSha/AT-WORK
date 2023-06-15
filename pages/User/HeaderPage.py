@@ -16,6 +16,11 @@ def header_menu(selenium):
         action_chains.move_to_element(profile_hover).perform()
 
 
+def open_user_menu(selenium):
+    with allure.step('Открытие личного кабинета пользователя'):
+        selenium.find_element(*HeaderPageLocators.PROFILE_HEADER).click()
+
+
 def profile_change_user(selenium):
     header_menu(selenium)
     with allure.step('Переключение аккаунта на физлицо'):

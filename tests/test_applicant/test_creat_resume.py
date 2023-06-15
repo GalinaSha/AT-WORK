@@ -2,6 +2,7 @@ import time
 
 import allure
 
+from pages.Applicant.MyResumePage import *
 from pages.Applicant.ResumeCreatePage import *
 
 from pages.User.LoginPage import auth_email
@@ -47,15 +48,20 @@ class TestResumeCreate:
             click_agreement_checkbox(selenium)
             click_next(selenium, ResumeCreatePageLocators.PUBLICATION_FREE_BUTTON)
 
-    @allure.title('Создание резюме с заполнением всех полей')
+    @allure.title('Удаление резюме')
     def test_delete_resume(self, go_to_url, selenium):
         auth_email(go_to_url, selenium)
+        open_user_menu(selenium)
+        change_role(selenium, ApplicantMenuPageLocators.ROLE_APPLICANT_ITEM)
+        open_page_from_menu(selenium, ApplicantMenuPageLocators.MY_RESUME_PAGE)
+        delete_resume(selenium)
+
 
 
     @allure.title('Создание резюме с заполнением только обязательных полей')
     def test_create_resume(self, go_to_url, selenium):
         auth_email(go_to_url, selenium)
-        open_create_form_resume_from_applicant_page(selenium)
+        open_create_form_resume_from_applicant_menu(selenium)
 
         with allure.step('Заполнение формы создания резюме'):
             click_next(selenium, ResumeCreatePageLocators.NEXT_BUTTON_1)
@@ -71,3 +77,11 @@ class TestResumeCreate:
             click_next(selenium, ResumeCreatePageLocators.NEXT_BUTTON_8)
             click_agreement_checkbox(selenium)
             click_next(selenium, ResumeCreatePageLocators.PUBLICATION_FREE_BUTTON)
+
+    @allure.title('Архивирование резюме')
+    def test_archive_resume(self, go_to_url, selenium):
+        auth_email(go_to_url, selenium)
+        open_user_menu(selenium)
+        change_role(selenium, ApplicantMenuPageLocators.ROLE_APPLICANT_ITEM)
+        open_page_from_menu(selenium, ApplicantMenuPageLocators.MY_RESUME_PAGE)
+        archive_resume(selenium)

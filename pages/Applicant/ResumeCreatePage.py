@@ -5,8 +5,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from data_for_tests import ResumeData
+from pages.Applicant.ApplicantMenuPage import change_role, open_page_from_menu, ApplicantMenuPageLocators
 from pages.Applicant.ApplicantPage import open_create_form_resume_from_new_resume
+from pages.Applicant.MyResumePage import open_create_form_resume_from_menu
 from pages.MainPage import go_applicant_page
+from pages.User.HeaderPage import open_user_menu
 
 
 class ResumeCreatePageLocators:
@@ -90,6 +93,14 @@ def open_create_form_resume_from_applicant_page(selenium):
     with allure.step('Открытие формы создания резюме со страницы "Я соискатель"'):
         go_applicant_page(selenium)
         open_create_form_resume_from_new_resume(selenium)
+
+
+def open_create_form_resume_from_applicant_menu(selenium):
+    with allure.step('Открытие формы создания резюме из ЛК "Я соискатель"'):
+        open_user_menu(selenium)
+        change_role(selenium, ApplicantMenuPageLocators.ROLE_APPLICANT_ITEM)
+        open_page_from_menu(selenium, ApplicantMenuPageLocators.MY_RESUME_PAGE)
+        open_create_form_resume_from_menu(selenium)
 
 
 def click_next(selenium, next_button_locator):
